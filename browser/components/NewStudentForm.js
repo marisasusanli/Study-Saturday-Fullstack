@@ -7,28 +7,31 @@ export default class NewStudentForm extends Component {
     this.state = {
       firstName: '',
       lastName: '',
-      email: ''
+      email: '',
     };
   }
 
   handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      // Send POST HTTP request to create student on the server side
+
       const studentInfo = this.state;
-      const { data: student } = await axios.post('/api/students', studentInfo);
+
+      // Send POST HTTP request to create student on the server side
+      // const { data: student } = await axios.post('/api/students', studentInfo);
+      this.props.addStudent(studentInfo);
 
       // Clear state/form
       this.setState({
         firstName: '',
         lastName: '',
-        email: ''
+        email: '',
       });
     } catch (error) {
       alert('Error adding student. Please try again.');
@@ -45,9 +48,9 @@ export default class NewStudentForm extends Component {
           <input
             required
             onChange={this.handleChange}
-            type="text"
+            type='text'
             value={firstName}
-            name="firstName"
+            name='firstName'
           />
         </label>
 
@@ -56,9 +59,9 @@ export default class NewStudentForm extends Component {
           <input
             required
             onChange={this.handleChange}
-            type="text"
+            type='text'
             value={lastName}
-            name="lastName"
+            name='lastName'
           />
         </label>
 
@@ -67,13 +70,13 @@ export default class NewStudentForm extends Component {
           <input
             required
             onChange={this.handleChange}
-            type="email"
+            type='email'
             value={email}
-            name="email"
+            name='email'
           />
         </label>
 
-        <button type="submit">Submit New Student</button>
+        <button type='submit'>Submit New Student</button>
       </form>
     );
   }

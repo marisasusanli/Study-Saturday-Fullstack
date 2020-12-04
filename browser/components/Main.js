@@ -11,7 +11,7 @@ export default class Main extends Component {
     this.state = {
       students: [],
       selectedStudent: {},
-      displayForm: false
+      displayForm: false,
     };
   }
 
@@ -23,7 +23,7 @@ export default class Main extends Component {
     try {
       const { data: students } = await axios.get('/api/students');
       this.setState({
-        students
+        students,
       });
     } catch (error) {
       console.error(error);
@@ -32,14 +32,22 @@ export default class Main extends Component {
 
   selectStudent = (student) => {
     return this.setState({
-      selectedStudent: student
+      selectedStudent: student,
     });
   };
 
   toggleForm = () => {
     const currentState = this.state.displayForm;
     this.setState({
-      displayForm: !currentState
+      displayForm: !currentState,
+    });
+  };
+
+  addStudent = async (newStudentInfo) => {
+    const response = await axios.post('/api/students', newStudentInfo);
+    const newStudent = response.data;
+    this.setState({
+      students: [...this.state.students, newStudent],
     });
   };
 
@@ -50,7 +58,7 @@ export default class Main extends Component {
       <div>
         <h1>Students</h1>
         <button onClick={this.toggleForm}>Add New Student</button>
-        {displayForm ? <NewStudentForm /> : null}
+        {displayForm ? <NewStudentForm addStudent={this.addStudent} /> : null}
         <table>
           <thead>
             <tr>
